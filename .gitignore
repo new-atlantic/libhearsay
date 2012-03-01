@@ -1,0 +1,11 @@
+dist/
+.svn
+.DS_Store
+*~
+.Trash*
+.Trash*/*
+.Trash*/**/*
+.directory
+*.cache
+*.in
+*.o
