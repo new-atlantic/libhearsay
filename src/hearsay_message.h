@@ -43,5 +43,13 @@ extern int hearsay_message_calculate_hash (hearsay_message *message);
 
 extern int hearsay_message_validate_hash  (hearsay_message *message);
 
+extern char *hearsay_message_text_to_struct (hearsay_message *message);
+
+extern char *hearsay_message_struct_to_text (hearsay_message *message);
+
+extern char *hearsay_message_json_to_struct (hearsay_message *message);
+
+extern char *hearsay_message_struct_to_json (hearsay_message *message);
+
 #endif
 
