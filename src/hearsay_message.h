@@ -39,5 +39,9 @@ typedef struct {
 	// TODO: char message_body[];
 } hearsay_message;
 
+extern int hearsay_message_calculate_hash (hearsay_message *message);
+
+extern int hearsay_message_validate_hash  (hearsay_message *message);
+
 #endif
 
