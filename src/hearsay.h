@@ -17,10 +17,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/// @file
 #ifndef HEARSAY_H
 #define HEARSAY_H
 
-/*** Hearsay API version ***
+/* Hearsay API version
  *
  * The Hearsay API and message format are versioned using a major and minor
  * number.

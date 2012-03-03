@@ -17,6 +17,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/// @file hearsay_message.c
+/// @brief Function definitions for handling hearsay messages.
+//  TODO: Split validation and transformation to separate .c files?
+
 #include <ctype.h>
 #include <string.h>
 

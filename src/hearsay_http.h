@@ -17,6 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/// @file  hearsay_http.h
+/// @brief Definitions relevant for exchanging Hearsay messages over HTTP.
+
 #ifndef HEARSAY_HTTP_H
 #define HEARSAY_HTTP_H
 
