@@ -32,6 +32,9 @@ int hearsay_message_calculate_hash (hearsay_message *message){
 	char hash[HEARSAY_MESSAGE_ID_LENGTH + 1]
 	 = "1234567890123456789012345678901234567890123456789012345678901234";
 
+	// TODO: Use gnutls_hash_fast to calculate the hash. First concatenate
+	//       the contents of the struct.
+
 	// Copy calculated hash to message id.
 	memcpy (message->id, hash, sizeof(hash));
 	
@@ -42,11 +45,10 @@ int hearsay_message_calculate_hash (hearsay_message *message){
 
 int hearsay_message_validate_hash (hearsay_message *message)
 {
-	unsigned int i;
 	char hash[HEARSAY_MESSAGE_ID_LENGTH + 1];
 
 	// Test that the id consists of valid hexadecimal digits.
-	for (i = 0; i < HEARSAY_MESSAGE_ID_LENGTH; i++) {
+	for (unsigned int i = 0; i < HEARSAY_MESSAGE_ID_LENGTH; i++) {
 		if (! isxdigit (message->id[i])) {
 			return 0;
 		}
