@@ -23,7 +23,7 @@
 #ifndef HEARSAY_HTTP_H
 #define HEARSAY_HTTP_H
 
-// Default server port for HTTP-based Hearsay-message exchange.
+/// @brief Default server port for HTTP-based Hearsay-message exchange.
 #define HEARSAY_HTTP_SERVER_PORT 1687
 
 
@@ -44,24 +44,6 @@
  *
  * Resource          [Methods]  Description
  * ----------------------------------------------------------------------------
- * hearsay             [GET]  - Resource describes the Hearsay implementation.
- *
- * hearsay/messages    [GET]  - Lists available public (shared) messages.
- *                              Request can be qualified by a query string.
- *                              TODO: List minimal supported query options.
- *
- * hearsay/message/new [POST] - Post a new message, the hash/id will be derived
- *                              from the message.
- *
- * hearsay/message/<message:id> [GET, POST]
- *                            - GET: Retrieve the message with given id. Return
- *                                   status should not distinguish between 
- *                                   messages that do not exist and private
- *                                   (not shared) messages.
- *                            - POST: Create the message with given id, if it
- *                                    does not exist. Recipient should verify
- *                                    that the id is the hash of the message.
- *
  ** Content-types **
  *
  * A HTTP-based hearsay implementation should support the following content
@@ -77,9 +59,26 @@
  * - text/html
  */
 
+/// @brief [GET] Resource describing the Hearsay implementation.
 #define HEARSAY_HTTP_RESOURCE_HEARSAY        "/hearsay"
+/// @brief [GET] Resource listing available public (shared) messages. Request 
+///              can be qualified by a query string.
+///              TODO: List minimal supported query options.
 #define HEARSAY_HTTP_RESOURCE_MESSAGES       "/hearsay/messages"
+/// @brief Prefix for the message resource.
+/**
+ * hearsay/message/<message:id> [GET, POST]
+ *                            - GET: Retrieve the message with given id. Return
+ *                                   status should not distinguish between 
+ *                                   messages that do not exist and private
+ *                                   (not shared) messages.
+ *                            - POST: Create the message with given id, if it
+ *                                    does not exist. Recipient should verify
+ *                                    that the id is the hash of the message.
+ */
 #define HEARSAY_HTTP_RESOURCE_MESSAGE_PREFIX "/hearsay/message/"
+/// @brief [POST] Resource for posting a new message, the hash/id will be 
+///               derived from the message.
 #define HEARSAY_HTTP_RESOURCE_NEW_MESSAGE    "/hearsay/message/new"
 
 #endif

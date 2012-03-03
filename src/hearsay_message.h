@@ -19,6 +19,7 @@
 
 /// @file hearsay_message.h
 /// @brief Hearsay message format defintion and function prototypes.
+
 #ifndef HEARSAY_MESSAGE_H
 #define HEARSAY_MESSAGE_H
 
@@ -61,14 +62,26 @@
 
 typedef struct {
 	char version[HEARSAY_MESSAGE_VERSION_STRING_LENGTH + 1];
+	///< @brief Hearsay API version string.
 	char id[HEARSAY_MESSAGE_ID_LENGTH + 1];
+	///< @brief Hash of the (non-optional) message contents. 
+	///         Serves as a UUID.
 	char timestamp[HEARSAY_MESSAGE_TIMESTAMP_LENGTH + 1];
+	///< @brief Time when the message was created.
 	char sender_name[HEARSAY_MESSAGE_SENDER_NAME_LENGTH +1];
+	///< @brief Name of the sender (optional).
 	char sender_address[HEARSAY_MESSAGE_SENDER_ADDRESS_LENGTH + 1];
+	///< @brief Network address of the sender (optional)
 	char sender_address_type[HEARSAY_MESSAGE_ADDRESS_TYPE_LENGTH + 1];
+	///< @brief Type of network address (optional).
 	char message_reference[HEARSAY_MESSAGE_ID_LENGTH + 1];
+	///< @brief Id of message being referred to. 
+	///         Useful for replies and continued messages.
 	char content_type[HEARSAY_MESSAGE_MAX_MIME_TYPE_LENGTH + 1];
+	///< @brief MIME type of the message contents. 
+	///         Only sensible at the moment is text/plain.
 	char message_body[HEARSAY_MESSAGE_BODY_MAX_LENGTH + 1];
+	///< @brief The actual message.
 } hearsay_message;
 
 /// @brief MIME-type for Hearsay messages as plain text.
@@ -115,28 +128,34 @@ extern int hearsay_message_validate_hash  (hearsay_message *message);
  * @brief Checks that the given message is a proper text/hearsay representation.
  */
 
-extern int hearsay_message_text_validate (char *text, site_t size);
-
-/**
- * @brief
- *
- * @param
- *
- * @return
- *
- * @retval
- */
-
-extern hearsay_message *hearsay_message_text_to_struct (char *text,
-                                                        size_t size);
+extern int hearsay_message_text_validate (const char *text, site_t size);
 
 /**
  * @brief Creates a hearsay_message from a text/hearsay representation.
  *
- * @param[in] text Text buffer containting text/hearsay message.
+ * @param[in] text Character buffer containting a text/hearsay message.
  * @param[in] size Size of the buffer.
  *
- * @return Returns a pointer to hearsay_message struct.
+ * @return Returns a pointer to hearsay_message struct. The memory allocated
+ *         must be explicitly \c free()d.
+ *
+ * @retval NULL A null pointer is returned if there is a memory allocation
+ *              error or the message is invalid. If you want to know which is
+ *              the case you should validate the message first with
+ *              hearsay_message_text_validate().
+ */
+
+extern hearsay_message *hearsay_message_text_to_struct (const char *text,
+                                                        size_t size);
+
+/**
+ * @brief Creates a text/hearsay message from a hearsay_message struct.
+ *
+ * @param[in,out] message Pointer to initialized hearsay_message.
+ *
+ * @return Returns a pointer to a character buffer containing the text/hearsay
+ *         representation of the message. The memory allocated must be
+ *         explicitly \c free()d.
  *
  * @retval NULL A null pointer is returned if there is a memory allocation
  *              error or the message is invalid. If you want to know which is
@@ -147,33 +166,38 @@ extern hearsay_message *hearsay_message_text_to_struct (char *text,
 extern char *hearsay_message_struct_to_text (hearsay_message *message);
 
 /**
- * @brief
+ * @brief Validate a JSON representation of a Hearsay message.
  *
- * @param
+ * @param[in] json Pointer to a character buffer containing the JSON message.
+ * @param[in] size Size of the char buffer.
  *
- * @return
- *
- * @retval
+ * @retval 1 The JSON message is a valid Hearsay message.
+ * @retval 0 The message is invalid.
  */
 
-extern int hearsay_message_json_validate (char *json, site_t size);
+extern int hearsay_message_json_validate (const char *json, site_t size);
 
 /**
- * @brief
+ * @brief Create a hearsay_message struct from a JSON representation.
  *
- * @param
+ * @param[in] json Character buffer containing a JSON hearsay message.
+ * @param[in] size Size of the char buffer.
  *
- * @return
+ * @return Returns a pointer to hearsay_message struct. The memory allocated
+ *         must be explicitly \c free()d.
  *
- * @retval
+ * @retval NULL A null pointer is returned if there is a memory allocation
+ *              error or the message is invalid. If you want to know which is
+ *              the case you should validate the message first with
+ *              hearsay_message_text_validate().
  */
 
-extern hearsay_message *hearsay_message_json_to_struct (char *json,
+extern hearsay_message *hearsay_message_json_to_struct (const char *json,
                                                         size_t size);
 /**
  * @brief Create a JSON representation of a Hearsay message. 
  *
- * @param[in] message An initialized hearsay_message. 
+ * @param[in,out] message Pointer to initialized hearsay_message. 
  *
  * @return Returns a pointer to a char buffer containing the JSON
  *         representation. \c free() has to be explicitly called for the

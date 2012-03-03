@@ -17,7 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/// @file
+/// @file hearsay.h
+
 #ifndef HEARSAY_H
 #define HEARSAY_H
 
@@ -30,8 +31,10 @@
  * change the definition of the API or the message format the API does not.
  *
  */
- 
+
+/// @brief Major number of the Hearsay API version.
 #define HEARSAY_API_VERSION_MAJOR 0
+/// @brief Minor number of the Hearsay API version.
 #define HEARSAY_API_VERSION_MINOR 0
 
 #endif
