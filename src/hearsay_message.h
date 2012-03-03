@@ -42,6 +42,9 @@
 /// @brief Address type length. Current options are MAC, IPv4 and IPv6.
 #define HEARSAY_MESSAGE_ADDRESS_TYPE_LENGTH 4u
 
+/// @brief Maximum length of the number of hops. 
+#define HEARSAY_MESSAGE_NUMBER_OF_HOPS_LENGTH 5u
+
 /// @brief Maximum length of a mime-type header (RFC 4288)
 #define HEARSAY_MESSAGE_MAX_MIME_TYPE_LENGTH 255u
 
@@ -64,7 +67,7 @@ typedef struct {
 	char version[HEARSAY_MESSAGE_VERSION_STRING_LENGTH + 1];
 	///< @brief Hearsay API version string.
 	char id[HEARSAY_MESSAGE_ID_LENGTH + 1];
-	///< @brief Hash of the (non-optional) message contents. 
+	///< @brief Hash of the (non-volatile) message contents. 
 	///         Serves as a UUID.
 	char timestamp[HEARSAY_MESSAGE_TIMESTAMP_LENGTH + 1];
 	///< @brief Time when the message was created.
@@ -75,6 +78,8 @@ typedef struct {
 	char sender_address_type[HEARSAY_MESSAGE_ADDRESS_TYPE_LENGTH + 1];
 	///< @brief Type of network address (optional).
 	char message_reference[HEARSAY_MESSAGE_ID_LENGTH + 1];
+	///< @brief Shortest path to message sender (volatile).
+	char n_hops[HEARSAY_MESSAGE_NUMBER_OF_HOPS_LENGTH + 1];
 	///< @brief Id of message being referred to. 
 	///         Useful for replies and continued messages.
 	char content_type[HEARSAY_MESSAGE_MAX_MIME_TYPE_LENGTH + 1];
