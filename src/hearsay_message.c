@@ -22,24 +22,56 @@
 //  TODO: Split validation and transformation to separate .c files?
 
 #include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+
+#include <gnutls/gnutls.h>
+#include <gnutls/crypto.h>
 
 #include "hearsay_message.h"
 
 int hearsay_message_calculate_hash (hearsay_message *message){
 
-	// TODO: Proper initialization via a cryptographic hash function.
-	char hash[HEARSAY_MESSAGE_ID_LENGTH + 1]
-	 = "1234567890123456789012345678901234567890123456789012345678901234";
+	char *hash;
+	char *hash_string;
+	char *hex_pair;
+	
+	int binary_hash_length = gnutls_hash_get_len (GNUTLS_DIG_SHA256) + 1;
+	
+	hash = malloc (binary_hash_length);
+	hash_string = calloc ((HEARSAY_MESSAGE_ID_LENGTH + 1), 1);
+	hex_pair = malloc (3);
 
-	// TODO: Use gnutls_hash_fast to calculate the hash. First concatenate
-	//       the contents of the struct.
+	// TODO: Replace dummy string with input message contents.	
+	gnutls_hash_fast (GNUTLS_DIG_SHA256,
+	                  "dummy_string",
+	                  strlen("dummy_string"),
+	                  hash);
+
+	// Translate binary hash to base 16.
+	// TODO: Probably not the most efficient way to do this.
+	for (int i = 0;i < binary_hash_length; i++) {
+		snprintf (hex_pair, 3, "%02hhx", hash[i]);
+		strcat (hash_string, hex_pair);
+	}
+
+        // Force null byte at end of array.
+	hash_string[HEARSAY_MESSAGE_ID_LENGTH] = '\0';
 
 	// Copy calculated hash to message id.
-	memcpy (message->id, hash, sizeof(hash));
+	memcpy (message->id, hash_string, sizeof(hash_string));
 	
-	// Enforce null byte at end of array.
+	// Force null byte at end of array.
 	message->id[HEARSAY_MESSAGE_ID_LENGTH] = '\0';
+	
+	// TODO: Replace malloc/free with simple stack based allocation or
+	//       alloca (portability issues with alloca...).
+	free (hash);
+	free (hash_string);
+	free (hex_pair);
+	
+	// TODO: Return 0 on error.
 	return 1;
 }
 
