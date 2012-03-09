@@ -40,8 +40,13 @@ int hearsay_message_calculate_hash (hearsay_message *message){
 	int binary_hash_length = gnutls_hash_get_len (GNUTLS_DIG_SHA256) + 1;
 	
 	hash = malloc (binary_hash_length);
+	if (! hash) return 0;
+	
 	hash_string = calloc ((HEARSAY_MESSAGE_ID_LENGTH + 1), 1);
+	if (! hash) return 0;
+
 	hex_pair = malloc (3);
+	if (! hex_pair) return 0;
 
 	// TODO: Replace dummy string with input message contents.	
 	gnutls_hash_fast (GNUTLS_DIG_SHA256,
@@ -70,8 +75,7 @@ int hearsay_message_calculate_hash (hearsay_message *message){
 	free (hash);
 	free (hash_string);
 	free (hex_pair);
-	
-	// TODO: Return 0 on error.
+
 	return 1;
 }
 
