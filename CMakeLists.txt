@@ -1,0 +1,5 @@
+cmake_minimum_required (VERSION 2.6)
+project (Hearsay)
+set (Hearsay_VERSION_MAJOR 0)
+set (Hearsay_VERSION_MINOR 0)
+add_library(Hearsay SHARED src/hearsay_message.c)
