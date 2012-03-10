@@ -31,7 +31,7 @@
 #include <gnutls/gnutls.h>
 #include <gnutls/crypto.h>
 
-#include "hearsay_message.h"
+#include "message.h"
 
 /**
  * @internal
