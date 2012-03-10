@@ -74,34 +74,78 @@ int hearsay_message_calculate_hash (hearsay_message *message){
 
 	char *hash;
 	char *hash_string;
+	char *hearsay_message_content;
 	char *hex_pair;
-	
-	int binary_hash_length = gnutls_hash_get_len (GNUTLS_DIG_SHA256) + 1;
+
+	size_t hearsay_message_max_content_length = \
+		HEARSAY_MESSAGE_VERSION_STRING_LENGTH
+		+ HEARSAY_MESSAGE_ID_LENGTH
+		+ HEARSAY_MESSAGE_TIMESTAMP_LENGTH
+		+ HEARSAY_MESSAGE_SENDER_NAME_LENGTH
+		+ HEARSAY_MESSAGE_SENDER_ADDRESS_LENGTH
+		+ HEARSAY_MESSAGE_ADDRESS_TYPE_LENGTH
+		+ HEARSAY_MESSAGE_ID_LENGTH
+		+ HEARSAY_MESSAGE_MAX_MIME_TYPE_LENGTH
+		+ HEARSAY_MESSAGE_BODY_MAX_LENGTH
+		+ 1;
+	size_t binary_hash_length = gnutls_hash_get_len (GNUTLS_DIG_SHA256) + 1;
 	
 	hash = malloc (binary_hash_length);
 	if (! hash) return 0;
 	
 	hash_string = calloc ((HEARSAY_MESSAGE_ID_LENGTH + 1), 1);
-	if (! hash) return 0;
+	if (! hash_string) return 0;
+	
+	hearsay_message_content = malloc (hearsay_message_max_content_length);
+	if (! hearsay_message_content) return 0;
 
 	hex_pair = malloc (3);
 	if (! hex_pair) return 0;
 
-	// TODO: Replace dummy string with input message contents.	
+	// Calculate the sha256 hash of the message.
+	// TODO: Document formally and publicly over what part of the message
+	//       the hash is calculated.	
+	
+	strncat (hearsay_message_content,
+	         message->version,
+	         HEARSAY_MESSAGE_VERSION_STRING_LENGTH);
+	strncat (hearsay_message_content,
+	         message->id,
+	         HEARSAY_MESSAGE_ID_LENGTH);
+	strncat (hearsay_message_content,
+	         message->timestamp,
+	         HEARSAY_MESSAGE_TIMESTAMP_LENGTH);
+	strncat (hearsay_message_content,
+	         message->sender_name,
+	         HEARSAY_MESSAGE_SENDER_NAME_LENGTH);
+	strncat (hearsay_message_content,
+	         message->sender_address,
+	         HEARSAY_MESSAGE_SENDER_ADDRESS_LENGTH);
+	strncat (hearsay_message_content,
+	         message->sender_address_type,
+	         HEARSAY_MESSAGE_ADDRESS_TYPE_LENGTH);
+	strncat (hearsay_message_content,
+	         message->message_reference,
+	         HEARSAY_MESSAGE_ID_LENGTH);
+	strncat (hearsay_message_content,
+	         message->content_type,
+	         HEARSAY_MESSAGE_MAX_MIME_TYPE_LENGTH);
+	strncat (hearsay_message_content,
+	         message->message_body,
+	         HEARSAY_MESSAGE_BODY_MAX_LENGTH);
+	
 	gnutls_hash_fast (GNUTLS_DIG_SHA256,
-	                  "dummy_string",
-	                  strlen("dummy_string"),
+	                  hearsay_message_content,
+	                  strnlen (hearsay_message_content,
+	                           hearsay_message_max_content_length),
 	                  hash);
 
 	// Translate binary hash to base 16.
 	// TODO: Probably not the most efficient way to do this.
 	for (int i = 0;i < binary_hash_length; i++) {
 		snprintf (hex_pair, 3, "%02hhx", hash[i]);
-		strcat (hash_string, hex_pair);
+		strncat (hash_string, hex_pair, 2);
 	}
-
-        // Force null byte at end of array.
-	hash_string[HEARSAY_MESSAGE_ID_LENGTH] = '\0';
 
 	// Copy calculated hash to message id.
 	memcpy (message->id, hash_string, sizeof(hash_string));
@@ -113,6 +157,7 @@ int hearsay_message_calculate_hash (hearsay_message *message){
 	//       alloca (portability issues with alloca...).
 	free (hash);
 	free (hash_string);
+	free (hearsay_message_content);
 	free (hex_pair);
 
 	return 1;
