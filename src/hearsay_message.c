@@ -79,7 +79,6 @@ int hearsay_message_calculate_hash (hearsay_message *message){
 
 	size_t hearsay_message_max_content_length = \
 		HEARSAY_MESSAGE_VERSION_STRING_LENGTH
-		+ HEARSAY_MESSAGE_ID_LENGTH
 		+ HEARSAY_MESSAGE_TIMESTAMP_LENGTH
 		+ HEARSAY_MESSAGE_SENDER_NAME_LENGTH
 		+ HEARSAY_MESSAGE_SENDER_ADDRESS_LENGTH
@@ -109,9 +108,6 @@ int hearsay_message_calculate_hash (hearsay_message *message){
 	strncat (hearsay_message_content,
 	         message->version,
 	         HEARSAY_MESSAGE_VERSION_STRING_LENGTH);
-	strncat (hearsay_message_content,
-	         message->id,
-	         HEARSAY_MESSAGE_ID_LENGTH);
 	strncat (hearsay_message_content,
 	         message->timestamp,
 	         HEARSAY_MESSAGE_TIMESTAMP_LENGTH);
