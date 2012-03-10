@@ -23,6 +23,20 @@
 #ifndef HEARSAY_MESSAGE_H
 #define HEARSAY_MESSAGE_H
 
+/**
+ * @brief Opaque type definition for the internal representation of a Hearsay
+ *         message.
+ */
+
+typedef struct hearsay_message hearsay_message;
+
+/**
+ * @defgroup hearsay_message_constants Hearsay message constants
+ *
+ * Constants defining the legal lengths of Hearsay message fields.
+ * @{
+ */
+
 /// @brief Hearsay API version string length. Format M.N or MM.NN.
 #define HEARSAY_MESSAGE_VERSION_STRING_LENGTH 5u
 
@@ -51,50 +65,21 @@
 /// @brief Maximum length for the message content. Arbitrary prime number.
 #define HEARSAY_MESSAGE_BODY_MAX_LENGTH 2011u
 
-/**
- * @brief Definition of a Hearsay message represented as a struct.
- *
- * The initial representation is only based on chars. Though wasteful in terms
- * of space use it requires no conversion for outputting "text/hearsay".
- * 
- * @todo Future versions should probably be more sophisticated, using unions
- *       and structs for version and sender address. Endianness is not an issue
- *       as the message is transformed into UTF-8 encoded text before
- *       transmission.
- */
-
-typedef struct {
-	char version[HEARSAY_MESSAGE_VERSION_STRING_LENGTH + 1];
-	///< @brief Hearsay API version string.
-	char id[HEARSAY_MESSAGE_ID_LENGTH + 1];
-	///< @brief Hash of the (non-volatile) message contents. 
-	///         Serves as a UUID.
-	char timestamp[HEARSAY_MESSAGE_TIMESTAMP_LENGTH + 1];
-	///< @brief Time when the message was created.
-	char sender_name[HEARSAY_MESSAGE_SENDER_NAME_LENGTH +1];
-	///< @brief Name of the sender (optional).
-	char sender_address[HEARSAY_MESSAGE_SENDER_ADDRESS_LENGTH + 1];
-	///< @brief Network address of the sender (optional)
-	char sender_address_type[HEARSAY_MESSAGE_ADDRESS_TYPE_LENGTH + 1];
-	///< @brief Type of network address (optional).
-	char message_reference[HEARSAY_MESSAGE_ID_LENGTH + 1];
-	///< @brief Shortest path to message sender (volatile).
-	char n_hops[HEARSAY_MESSAGE_NUMBER_OF_HOPS_LENGTH + 1];
-	///< @brief Id of message being referred to. 
-	///         Useful for replies and continued messages.
-	char content_type[HEARSAY_MESSAGE_MAX_MIME_TYPE_LENGTH + 1];
-	///< @brief MIME type of the message contents. 
-	///         Only sensible at the moment is text/plain.
-	char message_body[HEARSAY_MESSAGE_BODY_MAX_LENGTH + 1];
-	///< @brief The actual message.
-} hearsay_message;
-
 /// @brief MIME-type for Hearsay messages as plain text.
 #define HEARSAY_MESSAGE_TEXT_MIME "text/hearsay"
 
 ///@brief Maximum legal length for a "text/hearsay" representation.
 // TODO: Count maximum length based on headers (title + content) and body.
 #define HEARSAY_MESSAGE_TEXT_MAXIMUM_SIZE 0u
+
+/// @}
+
+/**
+ * @defgroup hearsay_message_functions Hearsay message functions
+ *
+ * Functions for working with Hearsay messages.
+ * @{
+ */
 
 /**
  * @brief Check that the Hearsay message contains valid data.
@@ -213,6 +198,8 @@ extern hearsay_message *hearsay_message_json_to_struct (const char *json,
  */
 
 extern char *hearsay_message_struct_to_json (hearsay_message *message);
+
+/// @}
 
 #endif
 

@@ -31,6 +31,45 @@
 
 #include "hearsay_message.h"
 
+/**
+ * @internal
+ * @brief Definition of a Hearsay message represented as a struct.
+ *
+ * The initial representation is only based on chars. Though wasteful in terms
+ * of space use it requires no conversion for outputting "text/hearsay".
+ * 
+ * @todo Future versions should probably be more sophisticated, using unions
+ *       and structs for version and sender address. Endianness is not an issue
+ *       as the message is transformed into UTF-8 encoded text before
+ *       transmission.
+ */
+
+typedef struct {
+	char version[HEARSAY_MESSAGE_VERSION_STRING_LENGTH + 1];
+	// Hearsay API version string.
+	char id[HEARSAY_MESSAGE_ID_LENGTH + 1];
+	// Hash of the (non-volatile) message contents. 
+	// Serves as a UUID.
+	char timestamp[HEARSAY_MESSAGE_TIMESTAMP_LENGTH + 1];
+	// Time when the message was created.
+	char sender_name[HEARSAY_MESSAGE_SENDER_NAME_LENGTH +1];
+	// Name of the sender (optional).
+	char sender_address[HEARSAY_MESSAGE_SENDER_ADDRESS_LENGTH + 1];
+	// Network address of the sender (optional)
+	char sender_address_type[HEARSAY_MESSAGE_ADDRESS_TYPE_LENGTH + 1];
+	// Type of network address (optional).
+	char message_reference[HEARSAY_MESSAGE_ID_LENGTH + 1];
+	// Shortest path to message sender (volatile).
+	char n_hops[HEARSAY_MESSAGE_NUMBER_OF_HOPS_LENGTH + 1];
+	// Id of message being referred to. 
+	// Useful for replies and continued messages.
+	char content_type[HEARSAY_MESSAGE_MAX_MIME_TYPE_LENGTH + 1];
+	// MIME type of the message contents. 
+	// Only sensible at the moment is text/plain.
+	char message_body[HEARSAY_MESSAGE_BODY_MAX_LENGTH + 1];
+	// The actual message.
+} hearsay_message;
+
 int hearsay_message_calculate_hash (hearsay_message *message){
 
 	char *hash;
