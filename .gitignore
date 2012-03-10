@@ -9,6 +9,7 @@ dist/
 *.cache
 *.in
 *.o
+*.so
 *.bak
 CMakeCache.txt
 CMakeFiles/
