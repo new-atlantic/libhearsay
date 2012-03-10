@@ -89,7 +89,7 @@ typedef struct hearsay_message hearsay_message;
  * @retval 1 The data are valid.
  * @retval 0 The data in the struct are invalid.
  */
-
+	
 extern int hearsay_message_validate (const hearsay_message *message);
 
 /**
@@ -118,7 +118,7 @@ extern int hearsay_message_validate_hash  (hearsay_message *message);
  * @brief Checks that the given message is a proper text/hearsay representation.
  */
 
-extern int hearsay_message_text_validate (const char *text, site_t size);
+extern int hearsay_message_text_validate (const char *text, size_t size);
 
 /**
  * @brief Creates a hearsay_message from a text/hearsay representation.
@@ -165,7 +165,7 @@ extern char *hearsay_message_struct_to_text (hearsay_message *message);
  * @retval 0 The message is invalid.
  */
 
-extern int hearsay_message_json_validate (const char *json, site_t size);
+extern int hearsay_message_json_validate (const char *json, size_t size);
 
 /**
  * @brief Create a hearsay_message struct from a JSON representation.

@@ -44,7 +44,7 @@
  *       transmission.
  */
 
-typedef struct {
+struct hearsay_message {
 	char version[HEARSAY_MESSAGE_VERSION_STRING_LENGTH + 1];
 	// Hearsay API version string.
 	char id[HEARSAY_MESSAGE_ID_LENGTH + 1];
@@ -68,7 +68,7 @@ typedef struct {
 	// Only sensible at the moment is text/plain.
 	char message_body[HEARSAY_MESSAGE_BODY_MAX_LENGTH + 1];
 	// The actual message.
-} hearsay_message;
+};
 
 int hearsay_message_calculate_hash (hearsay_message *message){
 
@@ -186,7 +186,7 @@ int hearsay_message_validate_hash (hearsay_message *message)
 	}
 }
 
-int hearsay_message_text_validate (const char *text, site_t size)
+int hearsay_message_text_validate (const char *text, size_t size)
 {
 	return 0;
 }
