@@ -21,6 +21,8 @@
 /// @brief Function definitions for handling hearsay messages.
 //  TODO: Split validation and transformation to separate .c files?
 
+#define _XOPEN_SOURCE 700
+
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -138,7 +140,7 @@ int hearsay_message_calculate_hash (hearsay_message *message){
 
 	// Translate binary hash to base 16.
 	// TODO: Probably not the most efficient way to do this.
-	for (int i = 0;i < binary_hash_length; i++) {
+	for (unsigned int i = 0;i < binary_hash_length; i++) {
 		snprintf (hex_pair, 3, "%02hhx", hash[i]);
 		strncat (hash_string, hex_pair, 2);
 	}
