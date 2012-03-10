@@ -190,15 +190,18 @@ int hearsay_message_validate_hash (hearsay_message *message)
 	}
 }
 
-int hearsay_message_text_validate (const char *text, site_t size) {
+int hearsay_message_text_validate (const char *text, site_t size)
+{
 	return 0;
 }
 
 hearsay_message *hearsay_message_text_to_struct (const char *text,
-                                                 size_t size) {
+                                                 size_t size)
+{
 	return NULL;
 }
 
-char *hearsay_message_struct_to_text (hearsay_message *message) {
+char *hearsay_message_struct_to_text (hearsay_message *message)
+{
 	return NULL;
 }
