@@ -94,20 +94,16 @@ int hearsay_message_calculate_hash (hearsay_message *message)
 	        gnutls_hash_get_len (GNUTLS_DIG_SHA256) + 1;
 
 	hash = malloc (binary_hash_length);
-	if (!hash)
-		return 0;
+	if (!hash) return 0;
 
 	hash_string = calloc ((HEARSAY_MESSAGE_ID_LENGTH + 1), 1);
-	if (!hash_string)
-		return 0;
+	if (!hash_string) return 0;
 
 	hearsay_message_content = malloc (hearsay_message_max_content_length);
-	if (!hearsay_message_content)
-		return 0;
+	if (!hearsay_message_content) return 0;
 
 	hex_pair = malloc (3);
-	if (!hex_pair)
-		return 0;
+	if (!hex_pair) return 0;
 
 	// Calculate the sha256 hash of the message.
 	// TODO: Document formally and publicly over what part of the message
@@ -141,7 +137,8 @@ int hearsay_message_calculate_hash (hearsay_message *message)
 	gnutls_hash_fast (GNUTLS_DIG_SHA256,
 	                  hearsay_message_content,
 	                  strnlen (hearsay_message_content,
-	                           hearsay_message_max_content_length), hash);
+	                           hearsay_message_max_content_length),
+	                  hash);
 
 	// Translate binary hash to base 16.
 	// TODO: Probably not the most efficient way to do this.
