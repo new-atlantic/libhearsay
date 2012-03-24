@@ -56,7 +56,7 @@ typedef struct hearsay_message hearsay_message;
 /// @brief Address type length. Current options are MAC, IPv4 and IPv6.
 #define HEARSAY_MESSAGE_ADDRESS_TYPE_LENGTH 4u
 
-/// @brief Maximum length of the number of hops. 
+/// @brief Maximum length of the number of hops.
 #define HEARSAY_MESSAGE_NUMBER_OF_HOPS_LENGTH 5u
 
 /// @brief Maximum length of a mime-type header (RFC 4288)
@@ -66,7 +66,7 @@ typedef struct hearsay_message hearsay_message;
 #define HEARSAY_MESSAGE_BODY_MAX_LENGTH 2011u
 
 /// @brief MIME-type for Hearsay messages as plain text.
-#define HEARSAY_MESSAGE_TEXT_MIME "text/hearsay"
+#define HEARSAY_MESSAGE_TEXT_MIME "text/x-hearsay"
 
 ///@brief Maximum legal length for a "text/hearsay" representation.
 // TODO: Count maximum length based on headers (title + content) and body.
@@ -89,7 +89,7 @@ typedef struct hearsay_message hearsay_message;
  * @retval 1 The data are valid.
  * @retval 0 The data in the struct are invalid.
  */
-	
+
 extern int hearsay_message_validate (const hearsay_message *message);
 
 /**
@@ -136,7 +136,7 @@ extern int hearsay_message_text_validate (const char *text, size_t size);
  */
 
 extern hearsay_message *hearsay_message_text_to_struct (const char *text,
-                                                        size_t size);
+                                                        size_t      size);
 
 /**
  * @brief Creates a text/hearsay message from a hearsay_message struct.
@@ -183,11 +183,11 @@ extern int hearsay_message_json_validate (const char *json, size_t size);
  */
 
 extern hearsay_message *hearsay_message_json_to_struct (const char *json,
-                                                        size_t size);
+                                                        size_t      size);
 /**
- * @brief Create a JSON representation of a Hearsay message. 
+ * @brief Create a JSON representation of a Hearsay message.
  *
- * @param[in,out] message Pointer to initialized hearsay_message. 
+ * @param[in,out] message Pointer to initialized hearsay_message.
  *
  * @return Returns a pointer to a char buffer containing the JSON
  *         representation. \c free() has to be explicitly called for the
@@ -202,4 +202,3 @@ extern char *hearsay_message_struct_to_json (hearsay_message *message);
 /// @}
 
 #endif
-

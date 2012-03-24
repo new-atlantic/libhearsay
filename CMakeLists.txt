@@ -20,4 +20,3 @@ find_library (CUNIT_LIBRARY cunit)
 add_executable (cunit_text_hearsay tests/cunit/text_hearsay.c)
 target_link_libraries (cunit_text_hearsay ${CUNIT_LIBRARY} hearsay)
 add_test (cunit_text_hearsay_test cunit_text_hearsay)
-

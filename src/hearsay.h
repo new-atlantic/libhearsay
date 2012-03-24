@@ -38,4 +38,3 @@
 #define HEARSAY_API_VERSION_MINOR 0
 
 #endif
-

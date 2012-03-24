@@ -61,25 +61,26 @@
 
 /// @brief [GET] Resource describing the Hearsay implementation.
 #define HEARSAY_HTTP_RESOURCE_HEARSAY        "/hearsay"
-/// @brief [GET] Resource listing available public (shared) messages. Request 
+/// @brief [GET] Resource listing available public (shared) messages. Request
 ///              can be qualified by a query string.
 ///              TODO: List minimal supported query options.
 #define HEARSAY_HTTP_RESOURCE_MESSAGES       "/hearsay/messages"
 /// @brief Prefix for the message resource.
+
 /**
  * hearsay/message/<message:id> [GET, POST]
  *                            - GET: Retrieve the message with given id. Return
- *                                   status should not distinguish between 
+ *                                   status should not distinguish between
  *                                   messages that do not exist and private
  *                                   (not shared) messages.
  *                            - POST: Create the message with given id, if it
  *                                    does not exist. Recipient should verify
  *                                    that the id is the hash of the message.
  */
+
 #define HEARSAY_HTTP_RESOURCE_MESSAGE_PREFIX "/hearsay/message/"
-/// @brief [POST] Resource for posting a new message, the hash/id will be 
+/// @brief [POST] Resource for posting a new message, the hash/id will be
 ///               derived from the message.
 #define HEARSAY_HTTP_RESOURCE_NEW_MESSAGE    "/hearsay/message/new"
 
 #endif
-
